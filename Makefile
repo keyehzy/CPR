@@ -4,10 +4,12 @@ FC = gfortran
 #FFLAGS = -O3 -fopenmp
 #FFLAGS = -O3 -mcmodel=medium
 #FFLAGS = -O0 -ggdb
+FFLAGS = -Wall -Wextra -Wconversion -pedantic
 
 #LFLAGS = -O3 -fopenmp
 #LFLAGS = -O3 -mcmodel=medium
 #LFLAGS = -O0 -ggdb
+LFLAG = -Wall -Wextra -Wconversion -pedantic
 
 #LIBS = -lgomp /usr/lib/liblapack.a /usr/lib/libblas.a
 #LIBS = 
@@ -16,9 +18,9 @@ LIBS = /lib64/liblapack.a /lib64/blas_LINUX.a
 #DEBUG = -fsanitize=address
 
 #OBJECTS = interface.o silicene2d.o tightb.o cherndet.o deter.o
-OBJECTS = ogpf.o plot.o interface.o interpolation.o companion.o cpr.o
+OBJECTS = ogpf.o interface.o chebyroots.o chebyinter.o cpr.o
 
-MODULES = ogpf.mod plot.mod interface.mod interpolation.mod companion.mod
+MODULES =  ogpf.mod interface.mod chebyroots.mod chebyinter.mod 
 
 DATA = 
 
