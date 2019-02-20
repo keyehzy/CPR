@@ -18,9 +18,9 @@ LIBS = /lib64/liblapack.a /lib64/blas_LINUX.a
 #DEBUG = -fsanitize=address
 
 #OBJECTS = interface.o silicene2d.o tightb.o cherndet.o deter.o
-OBJECTS = ogpf.o interface.o chebyroots.o cpr.o
+OBJECTS = ogpf.o chebyroots.o cpr.o
 
-MODULES =  ogpf.mod interface.mod chebyinter.mod 
+MODULES =  ogpf.mod chebyinter.mod 
 
 DATA = 
 
