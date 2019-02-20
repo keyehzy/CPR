@@ -137,33 +137,12 @@ CONTAINS
     REAL(KIND=DP), INTENT(IN) :: A,B
     REAL(KIND=DP), INTENT(IN), DIMENSION(0:N) :: C
     REAL(KIND=DP),DIMENSION(0:N) :: EVAL
-!    REAL(KIND=DP) :: BMA, BPA
-!    REAL(KIND=DP), DIMENSION(0:N) :: XI
-    !, B0, B1, B2, B3
+    
     INTEGER :: I1,I2
 
     TYPE(GPF) :: GPLOT
 
     EVAL = 0.0_DP
-    
-!    BMA = B-A
-!    BPA = B+A
-!    XI(0:N) = (/ ((2.0_DP * X(I1) - BPA)/BMA, I1 = 0,N) /)
-!!$
-!!$    B0 = 0.0_DP
-!!$    B1 = 0.0_DP
-!!$    B2 = 0.0_DP
-!!$    B3 = 0.0_DP
-!!$    
-!!$    DO I1=0,N
-!!$       DO I2=1,N
-!!$          B0(I1) = 2.0_DP * XI(I1) * B1(I1) - B2(I1) + C(N+1-I2)
-!!$          B3 = B2
-!!$          B2 = B1
-!!$          B1 = B0
-!!$       END DO
-!!$    END DO
-!!$    EVAL(0:N) = (/ (0.5_DP*(B0(I1) - B3(I1) + 0.5_DP*C(0)), I1 = 0,N) /)
     
     DO I1=0,N
        DO I2=0,N
