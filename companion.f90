@@ -1,0 +1,82 @@
+MODULE COMPANION
+  USE INTERFACE
+  IMPLICIT NONE
+  
+  REAL(KIND=DP), DIMENSION(N,N) :: COMP
+  
+CONTAINS
+
+  SUBROUTINE FIND_EIGEN()
+    CALL CHEBY_COMPANION_MATRIX()
+    CALL EIGENVALUES()
+    RETURN
+  END SUBROUTINE FIND_EIGEN
+
+  SUBROUTINE CHEBY_COMPANION_MATRIX()
+    USE PLOT
+    INTEGER :: I1,I2
+
+    COMP = 0.0_DP
+    
+!!$    DO I1 = 1,N
+!!$       DO I2 = 1,N
+!!$          IF(I1 .EQ. 1) THEN
+!!$             COMP(I1,2) = 1.0_DP
+!!$          ELSE IF(I1 .GT. 1 .AND. I1 .LT. N) THEN
+!!$             COMP(I1,I1-1) = 0.5_DP
+!!$             COMP(I1,I1+1) = 0.5_DP
+!!$          ELSE IF(I1 .EQ. N) THEN
+!!$             COMP(I1,I2) = -COEF(I2-1)/COEF(N)/2_DP
+!!$             IF(I2 .EQ. N-1) THEN
+!!$                COMP(I1,I2) = COMP(I1,I2) + 0.5_DP
+!!$             END IF
+!!$          END IF
+!!$       END DO
+!!$    END DO
+
+    DO I1 = 1,N-1
+       COMP(I1,I1+1) = 0.5_DP
+       COMP(I1+1,I1) = 0.5_DP
+    END DO
+    
+    COMP(N,1:N) = (/ (-0.5_DP*COEF(I1-1)/COEF(N), I1=1,N) /)
+
+    COMP(1,2) = 1.0_DP
+    COMP(N,N-1) = COMP(N,N-1) + 0.5_DP
+
+    
+!    OPEN(UNIT=1,FILE='OUTPUT.DAT', STATUS='UNKNOWN')
+!    CALL WRITE_RESULT(1,COMP)
+!    CLOSE(1)
+    
+    RETURN
+    
+  END SUBROUTINE CHEBY_COMPANION_MATRIX
+
+  SUBROUTINE EIGENVALUES()
+    CHARACTER :: JOBVL = 'N', JOBVE = 'N', INFO
+    REAL(KIND=DP), DIMENSION(N) :: WR, WI
+    REAL(KIND=DP), DIMENSION(1) :: VR, VL
+    INTEGER, PARAMETER :: LDVL = 1, LDVR = 1, LWORK = 5*N
+    REAL(KIND=DP), DIMENSION(LWORK) :: WORK   
+
+    REAL(KIND=DP), DIMENSION(N) :: ROOTS
+    
+    INTEGER :: I1
+
+    CALL DGEEV(JOBVL, JOBVL, N, COMP, N, WR, WI, VL, LDVL, VR, LDVR, WORK, LWORK, INFO)
+
+    ROOTS = 0_DP
+
+    PRINT *,
+    DO I1 = 1,N
+       IF(ABS(WI(I1)) .LT. 1.D-20 .AND. ABS(WR(I1)) .LE. 1.0_DP) THEN
+          ROOTS(I1) = WR(I1)
+          PRINT *, ROOTS(I1)
+       END IF
+    END DO
+
+    RETURN
+  END SUBROUTINE EIGENVALUES
+END MODULE COMPANION
+
